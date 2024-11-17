@@ -1,11 +1,20 @@
 // src/components/AttendanceForm/AttendanceForm.jsx
 
 import React, { useState, useEffect } from "react";
-import { fetchUsers, getAttendanceData, syncAttendance } from "../../services/attendanceService";
+import {
+  fetchUsers,
+  getAttendanceData,
+  syncAttendance,
+} from "../../services/attendanceService";
 import FilterSection from "./FilterSection";
 import AttendanceTable from "./AttendanceTable";
 import SyncButton from "./SyncButton";
-import { formatDate, formatTime12Hour, timeMaintained, calculateExpectedLogout } from "../../utils/dateUtils";
+import {
+  formatDate,
+  formatTime12Hour,
+  timeMaintained,
+  calculateExpectedLogout,
+} from "../../utils/dateUtils";
 
 const AttendanceForm = () => {
   const defaultEndDate = new Date();
@@ -22,6 +31,15 @@ const AttendanceForm = () => {
 
   useEffect(() => {
     fetchUsers().then(setUserList);
+
+    // Optional: replace the sync attendance button
+    try {
+      syncAttendance(); // This triggers the backend sync
+    } catch (error) {
+      console.error("Error during sync:", error);
+    } finally {
+      console.log("All attendance are synced");
+    }
   }, []);
 
   const handleSyncAllAttendance = async () => {
@@ -32,7 +50,11 @@ const AttendanceForm = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const data = await getAttendanceData(formatDate(startDate), formatDate(endDate), userId);
+    const data = await getAttendanceData(
+      formatDate(startDate),
+      formatDate(endDate),
+      userId
+    );
     setAttendanceData(data);
     setLoading(false);
   };
@@ -42,7 +64,7 @@ const AttendanceForm = () => {
       <div className="container mx-auto w-full max-w-6xl">
         <div className="space-y-8">
           {/* Sync Attendance Button */}
-          <SyncButton syncing={syncing} onSync={handleSyncAllAttendance} />
+          {/* <SyncButton syncing={syncing} onSync={handleSyncAllAttendance} /> */}
 
           {/* Filter Section */}
           <FilterSection
@@ -58,7 +80,9 @@ const AttendanceForm = () => {
           />
 
           {/* Attendance Data Table */}
-          {attendanceData && <AttendanceTable attendanceData={attendanceData} />}
+          {attendanceData && (
+            <AttendanceTable attendanceData={attendanceData} />
+          )}
         </div>
       </div>
     </div>

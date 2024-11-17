@@ -2,16 +2,32 @@
 
 import React from "react";
 import CalendarIcon from "../../icons/CalendarIcon"; // Correct
-import { formatDate, formatTime12Hour, calculateExpectedLogout, timeMaintained } from '../../utils/dateUtils';
+import {
+  formatDate,
+  formatTime12Hour,
+  calculateExpectedLogout,
+  timeMaintained,
+} from "../../utils/dateUtils";
 
-
-const FilterSection = ({ userList, userId, setUserId, startDate, setStartDate, endDate, setEndDate, onSubmit, loading }) => {
+const FilterSection = ({
+  userList,
+  userId,
+  setUserId,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+  onSubmit,
+  loading,
+}) => {
   return (
     <div className="bg-white shadow-md p-6 rounded-lg">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* User ID Dropdown */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Select User ID</label>
+          <label className="text-sm font-medium text-gray-700">
+            Select User ID
+          </label>
           <select
             value={userId}
             onChange={(e) => setUserId(e.target.value)}
